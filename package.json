@@ -13,7 +13,7 @@
   "author": "glitch-txs",
   "license": "MIT",
   "dependencies": {
-    "@glitch-txs/vite": "^5.3.11"
+    "vite": "^5.2.9"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
