@@ -1,6 +1,8 @@
-import { build, type InlineConfig } from 'vite'
+import { build } from 'vite'
 import { promisify } from 'node:util'
 import zlib from 'node:zlib'
+import { resolve } from 'node:path'
+import { readFile } from 'node:fs/promises'
 
 const gzip = promisify(zlib.gzip)
 
@@ -10,27 +12,33 @@ interface FileInfo {
   gzip: string | number
 }
 
-export async function buildVite(inlineConfig?:InlineConfig){
+export async function run(process: NodeJS.Process){
+
+  const pkgJSONPath = resolve(process.cwd(), 'package.json')
+  const pkgJSON = JSON.parse(await readFile(pkgJSONPath, 'utf8'))
   
+  const external = process.argv.slice(process.argv.indexOf('--externals') + 1)
+
   const filesInfo: FileInfo[] = []
 
   type Return = Awaited<ReturnType<typeof build>>
 
   const res: Omit<Return, 'RollupWatcher'> = await build({
-    root: './dist',
     build: {
       minify: true,
-      outDir: './distVite',
+      outDir: './dist/_vite-size',
       lib: {
-        entry: 'test.js',
+        entry: pkgJSON.main,
         formats: ['es']
-      }
+      },
+      rollupOptions: {
+        external
+      },
     },
-    ...inlineConfig
   })
 
 
-  const { output } = (Array.isArray(res) ? res[0] : res)
+  const { output } = Array.isArray(res) ? res[0] : res
   
   for (const chunkOrAsset of output) {
     if (chunkOrAsset.type === 'chunk') {
@@ -49,7 +57,3 @@ export async function buildVite(inlineConfig?:InlineConfig){
 
   return filesInfo
 }
-
-const filesInfo = await buildVite()
-
-console.log(filesInfo)

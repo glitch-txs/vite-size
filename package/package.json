@@ -1,0 +1,22 @@
+{
+  "name": "vite-size",
+  "version": "0.0.0",
+  "description": "Measure your build bundle size with Vite",
+  "main": "dist/index.js",
+  "bin": "dist/bin.js",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run build && node dist/index.js",
+    "build": "npx tsc",
+    "watch": "npx tsc --watch"
+  },
+  "author": "glitch-txs",
+  "license": "MIT",
+  "dependencies": {
+    "vite": "5.2.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}
