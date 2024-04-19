@@ -1,4 +1,4 @@
-import { build } from 'vite'
+import { type LibraryOptions, build } from 'vite'
 import { promisify } from 'node:util'
 import zlib from 'node:zlib'
 import { resolve } from 'node:path'
@@ -13,11 +13,24 @@ interface FileInfo {
 }
 
 export async function run(process: NodeJS.Process){
+  function hasProp(prop: string){
+    return process.argv.includes(prop)
+  }
 
-  const pkgJSONPath = resolve(process.cwd(), 'package.json')
-  const pkgJSON = JSON.parse(await readFile(pkgJSONPath, 'utf8'))
+  let lib: LibraryOptions | undefined = undefined
+
+  if(hasProp('--lib')){
+    const pkgJSONPath = resolve(process.cwd(), 'package.json')
+    const pkgJSON = JSON.parse(await readFile(pkgJSONPath, 'utf8'))
+
+    lib = {
+      entry: pkgJSON.main,
+      formats: ['es']
+    }
+  }
   
-  const external = process.argv.slice(process.argv.indexOf('--externals') + 1)
+  const external = hasProp('--externals') ? 
+  process.argv.slice(process.argv.indexOf('--externals') + 1) : undefined
 
   const filesInfo: FileInfo[] = []
 
@@ -26,33 +39,25 @@ export async function run(process: NodeJS.Process){
   const res: Omit<Return, 'RollupWatcher'> = await build({
     build: {
       minify: true,
-      outDir: './dist/_vite-size',
-      lib: {
-        entry: pkgJSON.main,
-        formats: ['es']
-      },
+      outDir: './dist',
+      lib,
       rollupOptions: {
         external
       },
     },
   })
 
-
   const { output } = Array.isArray(res) ? res[0] : res
   
   for (const chunkOrAsset of output) {
-    if (chunkOrAsset.type === 'chunk') {
-      const res = await gzip(Buffer.from(chunkOrAsset.code))
+    const source = chunkOrAsset.type === 'chunk' ? 'code' : 'source'
+    const res = await gzip(Buffer.from(chunkOrAsset[source]))
 
-      filesInfo.push({
-        name: chunkOrAsset.fileName,
-        size: Buffer.byteLength(chunkOrAsset.code) / 1000,
-        gzip: res.length / 1000
-      })
-
-    } else {
-      console.warn("Asset is WIP", Buffer.byteLength(chunkOrAsset.source))
-    }
+    filesInfo.push({
+      name: chunkOrAsset.fileName,
+      size: Buffer.byteLength(chunkOrAsset[source]) / 1000,
+      gzip: res.length / 1000
+    })
   }
 
   return filesInfo
