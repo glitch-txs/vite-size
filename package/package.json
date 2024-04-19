@@ -10,6 +10,11 @@
     "build": "rm -rf dist && npx tsc",
     "watch": "npx tsc --watch"
   },
+  "keywords": [
+    "vite",
+    "bundle size",
+    "script"
+  ],
   "author": "glitch-txs",
   "license": "MIT",
   "dependencies": {
