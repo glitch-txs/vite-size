@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "size": "pnpm run build && vite-size --externals @wagmi/core @wagmi/connectors viem",
-    "build": "npx tsc",
+    "build": "rm -rf dist && npx tsc",
     "watch": "npx tsc --watch"
   },
   "dependencies": {
