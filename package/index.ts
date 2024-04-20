@@ -12,6 +12,18 @@ interface FileInfo {
   gzip: string | number
 }
 
+function disableLogs(){
+  const log = console.log
+  const warn = console.warn
+  console.log = function(){}
+  console.warn = function(){}
+
+  return ()=>{
+    console.log = log
+    console.warn = warn
+  }
+}
+
 export async function run(process: NodeJS.Process){
   function hasProp(prop: string){
     return process.argv.includes(prop)
@@ -36,6 +48,7 @@ export async function run(process: NodeJS.Process){
 
   type Return = Awaited<ReturnType<typeof build>>
 
+  const enableLogs = disableLogs()
   const res: Omit<Return, 'RollupWatcher'> = await build({
     build: {
       minify: true,
@@ -46,6 +59,7 @@ export async function run(process: NodeJS.Process){
       },
     },
   })
+  enableLogs()
 
   const { output } = Array.isArray(res) ? res[0] : res
   
