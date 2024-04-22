@@ -4,7 +4,7 @@ Check the bundle size of the output build of any package with Vite.
 
 ## Install
 ```sh
-pnpm i vite-size
+pnpm i --save-dev vite-size
 ```
 
 ## Create a script
