@@ -25,6 +25,10 @@ You can also add external packages so they are not bundled
 
 _`--externals` should always be the **last** flag in the script._
 
+### Frameworks
+
+To support different frameworks with Vite plugins add the `--react` or `--vue` flag in the script.
+
 ### Run the script
 
 ```sh
