@@ -3,6 +3,8 @@ import { promisify } from 'node:util'
 import zlib from 'node:zlib'
 import { resolve } from 'node:path'
 import { readFile } from 'node:fs/promises'
+import react from '@vitejs/plugin-react'
+import vue from '@vitejs/plugin-vue'
 
 const gzip = promisify(zlib.gzip)
 
@@ -30,6 +32,7 @@ export async function run(process: NodeJS.Process){
   }
 
   let lib: LibraryOptions | undefined = undefined
+  let plugins: ReturnType<(typeof react | typeof vue)>[] = []
 
   if(hasProp('--lib')){
     const pkgJSONPath = resolve(process.cwd(), 'package.json')
@@ -41,6 +44,14 @@ export async function run(process: NodeJS.Process){
     }
   }
   
+  if(hasProp('--react')){
+    plugins.push(react())
+  }
+
+  if(hasProp('--vue')){
+    plugins.push(vue())
+  }
+
   const external = hasProp('--externals') ? 
   process.argv.slice(process.argv.indexOf('--externals') + 1) : undefined
 
@@ -50,6 +61,7 @@ export async function run(process: NodeJS.Process){
 
   const enableLogs = disableLogs()
   const res: Omit<Return, 'RollupWatcher'> = await build({
+    plugins: plugins.length ? plugins : undefined,
     build: {
       minify: true,
       outDir: './dist',
