@@ -29,16 +29,24 @@ _`--externals` should always be the **last** flag in the script._
 
 To support different frameworks with Vite plugins add the `--react` or `--vue` flag in the script.
 
-### Run the script
-
 ```sh
-pnpm run size
+"size": "npx tsc && vite-size --react --externals react react-dom"
 ```
 
-## Lib mode
+### Lib mode
 
 Use `--lib` if you're not using an `index.html` file. 
 
 ```sh
 "size": "npx tsc && vite-size --lib --externals <package-name> <another-package-name>"
 ```
+
+### Run the script
+
+```sh
+pnpm run size
+```
+
+## GitHub Action
+
+Use with [GitHub Actions](https://github.com/glitch-txs/vite-size-action).
