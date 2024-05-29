@@ -10,14 +10,14 @@
     "watch": "npx tsc --watch"
   },
   "dependencies": {
-    "@wagmi/connectors": "^4.1.26",
-    "@wagmi/core": "^2.6.17",
-    "@web3modal/wagmi": "^4.1.9",
-    "viem": "^2.9.21",
-    "vite-size": "workspace: *"
+    "@wagmi/connectors": "4.1.26",
+    "@wagmi/core": "2.6.17",
+    "@web3modal/wagmi": "4.2.0-cf64cc0f.1",
+    "viem": "2.9.21",
+    "vite-size": "workspace:^"
   },
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "typescript": "5.4.5"
   },
   "author": "",
   "license": "MIT"

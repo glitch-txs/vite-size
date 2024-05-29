@@ -86,5 +86,14 @@ export async function run(process: NodeJS.Process){
     })
   }
 
+  if(hasProp('--total')){
+    const totalSize = [{
+      name: "Total Size",
+      size: filesInfo.reduce((prev, info) => prev + Number(info.size), 0),
+      gzip: filesInfo.reduce((prev, info) => prev + Number(info.gzip), 0)
+    }]
+    return totalSize
+  }
+
   return filesInfo
 }

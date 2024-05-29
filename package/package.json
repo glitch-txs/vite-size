@@ -1,6 +1,6 @@
 {
   "name": "vite-size",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Measure your build bundle size with Vite",
   "main": "dist/index.js",
   "bin": "dist/bin.js",
