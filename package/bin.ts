@@ -4,4 +4,4 @@ import { run } from "./index.js"
 
 const res = await run(process)
 
-console.log(res)
+console.log(JSON.stringify(res))
