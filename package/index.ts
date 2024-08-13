@@ -67,7 +67,14 @@ export async function run(process: NodeJS.Process){
       outDir: './dist',
       lib,
       rollupOptions: {
-        external
+        external,
+        output: {
+          chunkFileNames: (chunk)=> {
+            const fileName = chunk.facadeModuleId?.split("@")?.[1]?.replace("+", "-") || chunk.name;
+
+            return "assets/" + fileName + ".js"
+          },
+        }
       },
     },
   })

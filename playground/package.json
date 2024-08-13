@@ -5,15 +5,15 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "size": "pnpm run build && vite-size --total --externals @wagmi/core @wagmi/connectors viem",
+    "size": "pnpm run build && vite-size --externals @wagmi/core @wagmi/connectors viem",
     "build": "rm -rf dist && npx tsc",
     "watch": "npx tsc --watch"
   },
   "dependencies": {
-    "@wagmi/connectors": "4.1.26",
-    "@wagmi/core": "2.6.17",
-    "@web3modal/wagmi": "4.2.0-cf64cc0f.1",
-    "viem": "2.9.21",
+    "@wagmi/connectors": "5.1.5",
+    "@wagmi/core": "2.13.4",
+    "@web3modal/wagmi": "5.0.11",
+    "viem": "2.19.4",
     "vite-size": "workspace:^"
   },
   "devDependencies": {
