@@ -1,6 +1,6 @@
 {
   "name": "vite-size",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Measure your build bundle size with Vite",
   "main": "dist/index.js",
   "bin": "dist/bin.js",
@@ -18,9 +18,9 @@
   "author": "glitch-txs",
   "license": "MIT",
   "dependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "@vitejs/plugin-vue": "^5.0.4",
-    "vite": "5.2.9"
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "vite": "6.2.5"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
