@@ -84,7 +84,7 @@ export async function run(process: NodeJS.Process){
   
   for (const chunkOrAsset of output) {
     const source = chunkOrAsset.type === 'chunk' ? 'code' : 'source'
-    const res = await gzip(Buffer.from(chunkOrAsset[source]))
+    const res = await gzip(new Uint8Array(Buffer.from(chunkOrAsset[source])))
 
     filesInfo.push({
       name: chunkOrAsset.fileName,
